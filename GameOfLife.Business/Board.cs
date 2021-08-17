@@ -51,10 +51,6 @@ namespace GameOfLife.Business
             return startRows;
         }
 
-        public class InvalidStartStringException : Exception
-        {
-        }
-
         public string[] Output()
         {
             string[] output = new string[rows];
@@ -63,12 +59,25 @@ namespace GameOfLife.Business
                 string row = "";
                 for (int c = 0; c < columns; c++)
                 {
-                    row += Cells[r, c].IsOn ? Board.ON : Board.OFF;
+                    row += Cells[r, c].IsAlive ? Board.ON : Board.OFF;
                 }
                 output[r] = row;
             }
 
             return output;
+        }
+
+        public void GetNextState()
+        {
+            throw new NotPopulatedException();
+        }
+
+        public class InvalidStartStringException : Exception
+        {
+        }
+
+        public class NotPopulatedException : Exception
+        {
         }
     }
 }

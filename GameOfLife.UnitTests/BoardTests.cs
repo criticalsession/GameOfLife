@@ -26,8 +26,8 @@ namespace GameOfLife.UnitTests
             string startString = "x..xx,..x..,..x..,xxx..,xxxxx";
             board.Populate(startString);
 
-            Assert.IsTrue(board.Cells[0, 0].IsOn);
-            Assert.IsFalse(board.Cells[2, 3].IsOn);
+            Assert.IsTrue(board.Cells[0, 0].IsAlive);
+            Assert.IsFalse(board.Cells[2, 3].IsAlive);
         }
 
         [Test]
@@ -61,6 +61,17 @@ namespace GameOfLife.UnitTests
 
             Assert.AreEqual(string.Format("{0}{1}{1}{0}{0}", Board.ON, Board.OFF), output[0]);
             Assert.AreEqual(string.Format("{1}{1}{0}{1}{1}", Board.ON, Board.OFF), output[2]);
+        }
+
+        [Test]
+        public void getNextState_boardIsNotPopulate_throwsNotPopulateException()
+        {
+            Board board = new Board(4, 5);
+
+            Assert.Throws<Board.NotPopulatedException>(() =>
+            {
+                board.GetNextState();
+            });
         }
     }
 }
