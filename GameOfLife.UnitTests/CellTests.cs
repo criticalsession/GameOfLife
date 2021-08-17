@@ -44,7 +44,7 @@ namespace GameOfLife.UnitTests
         }
 
         [Test]
-        public void getNextState_liveFewerThanTwoLiveNeighbours_cellDies()
+        public void getNextState_aliveFewerThanTwoLiveNeighbours_cellDies()
         {
             cell.IsAlive = true;
             Assert.False(cell.GetNextState(GetNeighbours(1)).IsAlive);
@@ -52,7 +52,7 @@ namespace GameOfLife.UnitTests
         }
 
         [Test]
-        public void getNextState_liveTwoOrThreeLiveNeighbours_cellLives()
+        public void getNextState_aliveTwoOrThreeLiveNeighbours_cellLives()
         {
             cell.IsAlive = true;
             Assert.True(cell.GetNextState(GetNeighbours(2)).IsAlive);
@@ -60,7 +60,7 @@ namespace GameOfLife.UnitTests
         }
 
         [Test]
-        public void getNextState_liveMoreThanThreeLiveNeighbours_cellDies()
+        public void getNextState_aliveMoreThanThreeLiveNeighbours_cellDies()
         {
             cell.IsAlive = true;
             Assert.False(cell.GetNextState(GetNeighbours(4)).IsAlive);
