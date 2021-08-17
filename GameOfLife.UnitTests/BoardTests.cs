@@ -47,5 +47,20 @@ namespace GameOfLife.UnitTests
                 board.Populate(startString);
             });
         }
+
+        [Test]
+        public void output_afterInitialisation_outputsCorrectStrings()
+        {
+            Board board = new Board(4, 5);
+            string startString = "x..xx,..x..,..x..,xxx..";
+            board.Populate(startString);
+
+            string[] output = board.Output();
+            Assert.AreEqual(4, output.Length);
+            Assert.AreEqual(5, output[0].Length);
+
+            Assert.AreEqual(string.Format("{0}{1}{1}{0}{0}", Board.ON, Board.OFF), output[0]);
+            Assert.AreEqual(string.Format("{1}{1}{0}{1}{1}", Board.ON, Board.OFF), output[2]);
+        }
     }
 }

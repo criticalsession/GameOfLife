@@ -8,6 +8,9 @@ namespace GameOfLife.Business
 {
     public class Board
     {
+        public const string ON = "X";
+        public const string OFF = "~";
+
         private int rows;
         private int columns;
 
@@ -50,6 +53,22 @@ namespace GameOfLife.Business
 
         public class InvalidStartStringException : Exception
         {
+        }
+
+        public string[] Output()
+        {
+            string[] output = new string[rows];
+            for (int r = 0; r < rows; r++)
+            {
+                string row = "";
+                for (int c = 0; c < columns; c++)
+                {
+                    row += Cells[r, c].IsOn ? Board.ON : Board.OFF;
+                }
+                output[r] = row;
+            }
+
+            return output;
         }
     }
 }
