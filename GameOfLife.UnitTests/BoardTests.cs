@@ -59,12 +59,12 @@ namespace GameOfLife.UnitTests
             Assert.AreEqual(4, output.Length);
             Assert.AreEqual(5, output[0].Length);
 
-            Assert.AreEqual(string.Format("{0}{1}{1}{0}{0}", Board.ON, Board.OFF), output[0]);
-            Assert.AreEqual(string.Format("{1}{1}{0}{1}{1}", Board.ON, Board.OFF), output[2]);
+            Assert.AreEqual(string.Format("{0}{1}{1}{0}{0}", Board.ON, Board.OFF), output[0]); // x..xx
+            Assert.AreEqual(string.Format("{1}{1}{0}{1}{1}", Board.ON, Board.OFF), output[2]); // ..x..
         }
 
         [Test]
-        public void getNextState_boardIsNotPopulate_throwsNotPopulateException()
+        public void getNextState_boardIsNotPopulated_throwsNotPopulateException()
         {
             Board board = new Board(4, 5);
 
@@ -72,6 +72,23 @@ namespace GameOfLife.UnitTests
             {
                 board.GetNextState();
             });
+        }
+
+        [Test]
+        public void getNextState_boardIsPopulated_updatesBoardWithNewState()
+        {
+            Board board = new Board(5, 5);
+            string startString = "x..xx,..x..,..x..,xxx..,xxxxx";
+            board.Populate(startString);
+            board.GetNextState();
+            
+            string[] output = board.Output();
+
+            Assert.AreEqual(string.Format("{0}{0}{0}{1}{0}", Board.OFF, Board.ON), output[0]);
+            Assert.AreEqual(string.Format("{0}{1}{1}{0}{0}", Board.OFF, Board.ON), output[1]);
+            Assert.AreEqual(string.Format("{0}{0}{1}{1}{0}", Board.OFF, Board.ON), output[2]);
+            Assert.AreEqual(string.Format("{1}{0}{0}{0}{0}", Board.OFF, Board.ON), output[3]);
+            Assert.AreEqual(string.Format("{1}{0}{0}{1}{0}", Board.OFF, Board.ON), output[4]);
         }
 
         [Test]
@@ -104,6 +121,28 @@ namespace GameOfLife.UnitTests
             Assert.True(neighbours[5].IsAlive);
             Assert.True(neighbours[6].IsAlive);
             Assert.True(neighbours[7].IsAlive);
+        }
+
+        [Test]
+        public void getCell_unpopulatedBoard_throwsNotPopulatedException()
+        {
+            Board board = new Board(5, 5);
+
+            Assert.Throws<Board.NotPopulatedException>(() =>
+            {
+                board.GetCell(0, 0);
+            });
+        }
+
+        [Test]
+        public void getCell_givenRowAndColumn_returnsCorrectCell()
+        {
+            Board board = new Board(5, 5);
+            string startString = "x..xx,..x..,..x..,xxx..,xxxxx";
+            board.Populate(startString);
+
+            Assert.IsTrue(board.GetCell(0, 3).IsAlive);
+            Assert.IsTrue(board.GetCell(2, 1).IsDead);
         }
     }
 }

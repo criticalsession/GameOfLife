@@ -25,6 +25,8 @@ namespace GameOfLife.Business
 
         public Cell[,] Cells;
 
+        private bool isPopulated;
+
         public Board(int rows, int columns)
         {
             this.rows = rows;
@@ -47,6 +49,8 @@ namespace GameOfLife.Business
 
                 rowCount++;
             }
+
+            isPopulated = true;
         }
 
         private string[] CheckAndSplitStartString(string startString)
@@ -78,7 +82,22 @@ namespace GameOfLife.Business
 
         public void GetNextState()
         {
-            throw new NotPopulatedException();
+            if (!isPopulated) throw new NotPopulatedException();
+
+            Cell[,] newCells = new Cell[rows, columns];
+
+            for (int rCount = 0; rCount < rows; rCount++)
+            {
+                for (int cCount = 0; cCount < columns; cCount++)
+                {
+                    Cell oldCell = GetCell(rCount, cCount);
+                    Cell newCell = oldCell.GetNextState(GetNeighbours(rCount, cCount));
+
+                    newCells[rCount, cCount] = newCell;
+                }
+            }
+
+            this.Cells = newCells;
         }
 
         public class InvalidStartStringException : Exception
@@ -118,6 +137,13 @@ namespace GameOfLife.Business
             }
 
             return neighbour;
+        }
+
+        public Cell GetCell(int row, int column)
+        {
+            if (!isPopulated) throw new NotPopulatedException();
+
+            return Cells[row, column];
         }
     }
 }
