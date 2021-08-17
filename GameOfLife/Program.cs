@@ -7,17 +7,27 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            Console.Clear();
-
             Board board = new Board(7,14);
             board.Populate("x..xxx.x..xxx.,..x.x....x.x..,..............,xxx.x..xxx.x..,.x.x.x..x.x.x.,xxx.xxxxxx.xxx,......x......x");
 
-            foreach (string r in board.Output())
-            {
-                Console.WriteLine(r);
-            }
+            int c = 0;
 
-            Console.ReadLine();
+            while (true)
+            {
+                c++;
+                if (c > 10) break;
+
+                Console.Clear();
+
+                foreach (string r in board.Output())
+                {
+                    Console.WriteLine(r);
+                }
+
+                board.GetNextState();
+                System.Threading.Thread.Sleep(1000);
+            }
         }
+
     }
 }
