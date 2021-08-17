@@ -7,15 +7,15 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            Board board = new Board(7,14);
-            board.Populate("x..xxx.x..xxx.,..x.x....x.x..,..............,xxx.x..xxx.x..,.x.x.x..x.x.x.,xxx.xxxxxx.xxx,......x......x");
+            Board board = new Board(10,10);
+            board.Populate("..........,..x.......,x.x.......,.xx.......,..........,..........,..........,..........,..........,..........");
 
             int c = 0;
 
             while (true)
             {
                 c++;
-                if (c > 10) break;
+                if (c > 35) break;
 
                 Console.Clear();
 
@@ -25,7 +25,7 @@ namespace GameOfLife
                 }
 
                 board.GetNextState();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(200);
             }
         }
 
