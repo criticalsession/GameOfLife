@@ -73,5 +73,37 @@ namespace GameOfLife.UnitTests
                 board.GetNextState();
             });
         }
+
+        [Test]
+        public void getNeighbour_givenCentralCellAndDirection_returnsCorrectNeighbour()
+        {
+            Board board = new Board(5, 5);
+            string startString = "x..xx,..x..,..x..,xxx..,xxxxx";
+            board.Populate(startString);
+
+            Assert.True(board.GetNeighbour(2, 1, Board.DIRECTION_UP).IsDead);
+            Assert.True(board.GetNeighbour(0, 3, Board.DIRECTION_DOWNLEFT).IsAlive);
+            Assert.True(board.GetNeighbour(0, 0, Board.DIRECTION_UPRIGHT).IsDead);
+        }
+
+        [Test]
+        public void getNeighbours_boardIsPopulated_returnsCorrectArrayOfEightNeighbours()
+        {
+            Board board = new Board(5, 5);
+            string startString = "x..xx,..x..,..x..,xxx..,xxxxx";
+            board.Populate(startString);
+
+            Cell[] neighbours = board.GetNeighbours(2, 1);
+            Assert.AreEqual(8, neighbours.Length);
+
+            Assert.True(neighbours[0].IsDead);
+            Assert.True(neighbours[1].IsDead);
+            Assert.True(neighbours[2].IsAlive);
+            Assert.True(neighbours[3].IsDead);
+            Assert.True(neighbours[4].IsAlive);
+            Assert.True(neighbours[5].IsAlive);
+            Assert.True(neighbours[6].IsAlive);
+            Assert.True(neighbours[7].IsAlive);
+        }
     }
 }

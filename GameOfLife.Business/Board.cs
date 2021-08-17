@@ -8,8 +8,17 @@ namespace GameOfLife.Business
 {
     public class Board
     {
-        public const string ON = "X";
-        public const string OFF = "~";
+        public static readonly string ON = "X";
+        public static readonly string OFF = "~";
+
+        public static readonly int[] DIRECTION_UPLEFT = { -1, -1 };
+        public static readonly int[] DIRECTION_UP = { -1, 0 };
+        public static readonly int[] DIRECTION_UPRIGHT = { -1, 1 };
+        public static readonly int[] DIRECTION_LEFT = { 0, -1 };
+        public static readonly int[] DIRECTION_RIGHT = { 0, 1 };
+        public static readonly int[] DIRECTION_DOWNLEFT = { 1, -1 };
+        public static readonly int[] DIRECTION_DOWN = { 1, 0 };
+        public static readonly int[] DIRECTION_DOWNRIGHT = { 1, 1 };
 
         private int rows;
         private int columns;
@@ -78,6 +87,37 @@ namespace GameOfLife.Business
 
         public class NotPopulatedException : Exception
         {
+        }
+
+        public Cell[] GetNeighbours(int row, int column)
+        {
+            Cell[] neighbours = new Cell[8];
+            neighbours[0] = GetNeighbour(row, column, DIRECTION_UPLEFT);
+            neighbours[1] = GetNeighbour(row, column, DIRECTION_UP);
+            neighbours[2] = GetNeighbour(row, column, DIRECTION_UPRIGHT);
+            neighbours[3] = GetNeighbour(row, column, DIRECTION_LEFT);
+            neighbours[4] = GetNeighbour(row, column, DIRECTION_RIGHT);
+            neighbours[5] = GetNeighbour(row, column, DIRECTION_DOWNLEFT);
+            neighbours[6] = GetNeighbour(row, column, DIRECTION_DOWN);
+            neighbours[7] = GetNeighbour(row, column, DIRECTION_DOWNRIGHT);
+            return neighbours;
+        }
+
+        public Cell GetNeighbour(int centralRow, int centralColumn, int[] direction)
+        {
+            Cell neighbour = new Cell();
+
+            int getRow = centralRow + direction[0];
+            int getCol = centralColumn + direction[1];
+
+            if (getRow < 0 || getRow >= rows || getCol < 0 || getCol >= columns)
+                neighbour.IsAlive = false;
+            else
+            {
+                neighbour = Cells[getRow, getCol];
+            }
+
+            return neighbour;
         }
     }
 }
